@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Packaging
+class Box
+class PolyBag
+enum Material
+
+Packaging : -Material
+Packaging : +canFitItem()
+Packaging : +getMass()
+
+Box : -length : BigDecimal
+Box : -width : BigDecimal
+Box : -height : BigDecimal
+
+PolyBag : -volume : BigDecimal
+
+Material : CORRUGATE
+Material : LAMINATED_PLASTIC
+
+Packaging <|-- Box
+Packaging <|-- PolyBag
+Packaging o-- Material
+
+@enduml
