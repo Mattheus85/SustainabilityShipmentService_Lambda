@@ -2,24 +2,24 @@
 'https://plantuml.com/class-diagram
 
 class Packaging {
-Packaging : -Material
-Packaging : +canFitItem()
-Packaging : +getMass()
+-Material
++canFitItem()
++getMass()
 }
 
 class Box {
-Box : -length : BigDecimal
-Box : -width : BigDecimal
-Box : -height : BigDecimal
+-length : BigDecimal
+-width : BigDecimal
+-height : BigDecimal
 }
 
 class PolyBag {
-PolyBag : -volume : BigDecimal
+-volume : BigDecimal
 }
 
 enum Material {
-Material : CORRUGATE
-Material : LAMINATED_PLASTIC
+CORRUGATE
+LAMINATED_PLASTIC
 }
 
 Packaging <|-- Box
