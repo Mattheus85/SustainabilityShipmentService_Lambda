@@ -88,11 +88,19 @@ public class Box extends Packaging {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         Box box = (Box) o;
-        return Objects.equals(length, box.length) && Objects.equals(width, box.width) && Objects.equals(height, box.height);
+        return  Objects.equals(length, box.length) &&
+                Objects.equals(width, box.width) &&
+                Objects.equals(height, box.height);
     }
 
     @Override
