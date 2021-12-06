@@ -20,8 +20,8 @@ the duplicate. This is a perfect time to exercise Postel's Law (aka the Principl
 
 Update the `PackagingDAO` (and any other necessary classes) to detect and ignore duplicate `FcPackagingOptions`.
 "Duplicate" in this case means that the FC code is identical, and the `Packaging` has the same size and the same
-material. We can acheive this by instead of using an ArrayList to hold our `fcPackagingOptiona` we can use a `HashMap`
-who keys are the `FulfillmentCenter`s and whose values are a `HashSet` of `FcPackagingOptions`.
+material. We can achieve this by instead of using an ArrayList to hold our `fcPackagingOptions` we can use a `HashMap`
+whose keys are the `FulfillmentCenter`s and whose values are a `HashSet` of `FcPackagingOptions`.
 This will complicate the constructor as you will need to iterate through each of the `FcPackagingOptions` and add them
 to the HashMap, and you will need to check for and handle whether the entry already exists or not.
 
@@ -37,10 +37,10 @@ checks.
 
 Update the `PackagingDAO` so the `findShipmentOptions()` method only has to check the unique `Packaging`s for the one
 provided `FulfillmentCenter`, instead of searching through all combinations. (Don’t look it up by its code; use the
-`FulfillmentCenter` object.) Reduce the number of checks from from O(n*m) to O(m). 
+`FulfillmentCenter` object.) Reduce the number of checks from O(n*m) to O(m). 
 
 Write a unit test inside of `PackagingDAOTest` and test that finding shipment options for `IAD2` will in fact return
-a single option rather than 2 identical options (as would have occured prior to us updating the `PackagingDAO`).
+a single option rather than 2 identical options (as would have occurred prior to us updating the `PackagingDAO`).
 
 ### Milestone 3: Setup on IAD2
 
