@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PackagingDAOTest {
 
-    private Item testItem = createItem("30", "30", "30");
-    private Item smallItem = createItem("5", "5", "5");
+    private Item testItem = createItem("30", "30", "30", BigDecimal.valueOf(2700));
+    private Item smallItem = createItem("5", "5", "5", BigDecimal.valueOf(625));
 
     private FulfillmentCenter ind1 = new FulfillmentCenter("IND1");
     private FulfillmentCenter abe2 = new FulfillmentCenter("ABE2");
@@ -40,7 +40,7 @@ class PackagingDAOTest {
     }
 
     @Test
-    public void findShipmentOptions_packagingDoesntFit_throwsNoPackagingFitsItemException() {
+    public void findShipmentOptions_packagingDoesNotFit_throwsNoPackagingFitsItemException() {
         // GIVEN
         packagingDAO = new PackagingDAO(datastore);
 
@@ -92,13 +92,27 @@ class PackagingDAOTest {
                 + "for each.");
     }
 
-    private Item createItem(String length, String width, String height) {
+    @Test
+    public void findShipmentOptions_threePackagingAvailableOneDuplicateOption_returnsThreeOptions() throws Exception {
+        // GIVEN
+        packagingDAO = new PackagingDAO(datastore);
+
+        // WHEN
+        List<ShipmentOption> shipmentOptions = packagingDAO.findShipmentOptions(smallItem, iad2);
+
+        // THEN
+        assertEquals(3, shipmentOptions.size(),
+                "When datastore has duplicate packaging that can fit item, return a single option.");
+    }
+
+    private Item createItem(String length, String width, String height, BigDecimal volume) {
         return Item.builder()
                 .withAsin("B00TEST")
                 .withDescription("Test Item")
                 .withHeight(new BigDecimal(length))
                 .withWidth(new BigDecimal(width))
                 .withLength(new BigDecimal(height))
+                .withVolume(new BigDecimal(String.valueOf(volume)))
                 .build();
     }
 }

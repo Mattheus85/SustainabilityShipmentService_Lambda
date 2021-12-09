@@ -32,12 +32,18 @@ public class Item {
      */
     private BigDecimal height;
 
+    /**
+     * The volume of the item, in cubic centimeters.
+     */
+    private BigDecimal volume;
+
     private Item(Builder builder) {
         asin = builder.asin;
         description = builder.description;
         length = builder.length;
         width = builder.width;
         height = builder.height;
+        volume = builder.volume;
     }
 
     @Override
@@ -48,6 +54,7 @@ public class Item {
             ", length=" + length +
             ", width=" + width +
             ", height=" + height +
+            ", volume=" + volume +
             '}';
     }
 
@@ -80,6 +87,10 @@ public class Item {
         return height;
     }
 
+    public BigDecimal getVolume() {
+        return volume;
+    }
+
     /**
      * {@code Item} builder static inner class.
      */
@@ -89,6 +100,7 @@ public class Item {
         private BigDecimal length;
         private BigDecimal width;
         private BigDecimal height;
+        private BigDecimal volume;
 
         private Builder() {
         }
@@ -146,6 +158,17 @@ public class Item {
          */
         public Builder withHeight(BigDecimal heightToUse) {
             this.height = heightToUse;
+            return this;
+        }
+
+        /**
+         * Sets the {@code volume} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param volumeToUse the {@code volume} to set
+         * @return a reference to this Builder
+         */
+        public Builder withVolume(BigDecimal volumeToUse) {
+            this.volume = volumeToUse;
             return this;
         }
 

@@ -70,6 +70,14 @@ public class ItemWrapper extends WrapperBase {
     }
 
     /**
+     * Returns the wrapped Item's height.
+     * @return the Item's height
+     */
+    public BigDecimal getVolume() {
+        return (BigDecimal) invokeInstanceMethodWithReturnValue(getMethod("getVolume"));
+    }
+
+    /**
      * Returns a {@code Builder} suitable for building a new {@code ItemWrapper}.
      * @return The {@code Builder}, ready for building
      */
@@ -98,6 +106,8 @@ public class ItemWrapper extends WrapperBase {
             itemBuilder, getBuilderWithWidthMethod(), itemWrapperBuilder.width);
         itemBuilder = WrapperBase.invokeInstanceMethodWithReturnValue(
             itemBuilder, getBuilderWithHeightMethod(), itemWrapperBuilder.height);
+        itemBuilder = WrapperBase.invokeInstanceMethodWithReturnValue(
+                itemBuilder, getBuilderWithVolumeMethod(), itemWrapperBuilder.volume);
 
         return WrapperBase.invokeInstanceMethodWithReturnValue(itemBuilder, getBuilderBuildMethod());
     }
@@ -126,6 +136,10 @@ public class ItemWrapper extends WrapperBase {
         return WrapperBase.getMethod(WRAPPED_CLASS_BUILDER, "withHeight", BigDecimal.class);
     }
 
+    private static Method getBuilderWithVolumeMethod() {
+        return WrapperBase.getMethod(WRAPPED_CLASS_BUILDER, "withVolume", BigDecimal.class);
+    }
+
     private static Method getBuilderBuildMethod() {
         return WrapperBase.getMethod(WRAPPED_CLASS_BUILDER, "build");
     }
@@ -139,6 +153,7 @@ public class ItemWrapper extends WrapperBase {
         private BigDecimal length;
         private BigDecimal width;
         private BigDecimal height;
+        private BigDecimal volume;
 
         private Builder() {
         }
@@ -196,6 +211,17 @@ public class ItemWrapper extends WrapperBase {
          */
         public Builder withHeight(final BigDecimal heightToUse) {
             this.height = heightToUse;
+            return this;
+        }
+
+        /**
+         * Sets the {@code volume} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param volumeToUse the {@code volume} to set
+         * @return a reference to this Builder
+         */
+        public Builder withVolume(final BigDecimal volumeToUse) {
+            this.volume = volumeToUse;
             return this;
         }
 

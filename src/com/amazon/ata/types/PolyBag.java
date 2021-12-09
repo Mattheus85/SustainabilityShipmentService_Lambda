@@ -1,6 +1,7 @@
 package com.amazon.ata.types;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class PolyBag extends Packaging {
 
@@ -15,6 +16,16 @@ public class PolyBag extends Packaging {
     public PolyBag(Material material, BigDecimal volume) {
         super(material);
         this.volume = volume;
+    }
+
+    /**
+     * Returns whether the given item will fit in this packaging.
+     *
+     * @param item the item to test fit for
+     * @return whether the item will fit in this packaging
+     */
+    public boolean canFitItem(Item item) {
+        return this.volume.compareTo(item.getVolume()) > 0;
     }
 
     /**
@@ -33,4 +44,17 @@ public class PolyBag extends Packaging {
         this.volume = volume;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PolyBag polyBag = (PolyBag) o;
+        return getVolume().equals(polyBag.getVolume());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getVolume());
+    }
 }

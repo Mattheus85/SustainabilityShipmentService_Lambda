@@ -63,6 +63,7 @@ public class MT4UniqueIntrospectionTests {
             .withLength(new BigDecimal(1))
             .withWidth(new BigDecimal(1))
             .withHeight(new BigDecimal(1))
+            .withVolume(new BigDecimal(3))
             .build();
         // fulfillment center with relevant FC code
         FulfillmentCenterWrapper fulfillmentCenterWrapper = new FulfillmentCenterWrapper(IAD2_FC_CODE);
