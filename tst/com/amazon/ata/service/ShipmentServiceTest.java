@@ -18,6 +18,7 @@ class ShipmentServiceTest {
             .withHeight(BigDecimal.valueOf(1))
             .withWidth(BigDecimal.valueOf(1))
             .withLength(BigDecimal.valueOf(1))
+            .withVolume(BigDecimal.valueOf(1))
             .withAsin("abcde")
             .build();
 

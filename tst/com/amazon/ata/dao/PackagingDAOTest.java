@@ -16,8 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PackagingDAOTest {
 
-    private Item testItem = createItem("30", "30", "30", BigDecimal.valueOf(2700));
     private Item smallItem = createItem("5", "5", "5", BigDecimal.valueOf(625));
+    private Item mediumItem = createItem("10", "4", "10", BigDecimal.valueOf(4000));
+    private Item largeItem = createItem("10", "9", "10", BigDecimal.valueOf(9000));
+    private Item hugeItem = createItem("300", "300", "300", BigDecimal.valueOf(27000000));
 
     private FulfillmentCenter ind1 = new FulfillmentCenter("IND1");
     private FulfillmentCenter abe2 = new FulfillmentCenter("ABE2");
@@ -35,7 +37,7 @@ class PackagingDAOTest {
 
         // WHEN + THEN
         assertThrows(UnknownFulfillmentCenterException.class, () -> {
-            packagingDAO.findShipmentOptions(testItem, fulfillmentCenter);
+            packagingDAO.findShipmentOptions(mediumItem, fulfillmentCenter);
         }, "When asked to ship from an unknown fulfillment center, throw UnknownFulfillmentCenterException.");
     }
 
@@ -46,12 +48,12 @@ class PackagingDAOTest {
 
         // WHEN + THEN
         assertThrows(NoPackagingFitsItemException.class, () -> {
-            packagingDAO.findShipmentOptions(testItem, ind1);
+            packagingDAO.findShipmentOptions(hugeItem, ind1);
         }, "When no packaging can fit the item, throw NoPackagingFitsItemException.");
     }
 
     @Test
-    public void findShipmentOptions_onePackagingAvailableAndFits_singlePackaging() throws Exception {
+    public void findShipmentOptions_threePackagingAvailableAndFits_threePackaging() throws Exception {
         // GIVEN
         packagingDAO = new PackagingDAO(datastore);
 
@@ -59,18 +61,18 @@ class PackagingDAOTest {
         List<ShipmentOption> shipmentOptions = packagingDAO.findShipmentOptions(smallItem, ind1);
 
         // THEN
-        assertEquals(1, shipmentOptions.size(),
+        assertEquals(3, shipmentOptions.size(),
             "When fulfillment center has packaging that can fit item, return a ShipmentOption with the item, "
                 + "fulfillment center, and packaging that can fit the item.");
     }
 
     @Test
-    public void findShipmentOptions_twoPackagingAvailableAndOneFits_singlePackaging() throws Exception {
+    public void findShipmentOptions_threePackagingAvailableAndOneFits_singlePackaging() throws Exception {
         // GIVEN
         packagingDAO = new PackagingDAO(datastore);
 
         // WHEN
-        List<ShipmentOption> shipmentOptions = packagingDAO.findShipmentOptions(testItem, abe2);
+        List<ShipmentOption> shipmentOptions = packagingDAO.findShipmentOptions(mediumItem, ind1);
 
         // THEN
         assertEquals(1, shipmentOptions.size(),
@@ -79,12 +81,12 @@ class PackagingDAOTest {
     }
 
     @Test
-    public void findShipmentOptions_twoPackagingAvailableAndBothFit_twoPackagingOptions() throws Exception {
+    public void findShipmentOptions_threePackagingAvailableAndTwFit_twoPackagingOptions() throws Exception {
         // GIVEN
         packagingDAO = new PackagingDAO(datastore);
 
         // WHEN
-        List<ShipmentOption> shipmentOptions = packagingDAO.findShipmentOptions(smallItem, abe2);
+        List<ShipmentOption> shipmentOptions = packagingDAO.findShipmentOptions(largeItem, abe2);
 
         // THEN
         assertEquals(2, shipmentOptions.size(),
@@ -93,7 +95,7 @@ class PackagingDAOTest {
     }
 
     @Test
-    public void findShipmentOptions_threePackagingAvailableOneDuplicateOption_returnsThreeOptions() throws Exception {
+    public void findShipmentOptions_fivePackagingAvailableOneDuplicateOption_returnsFourOptions() throws Exception {
         // GIVEN
         packagingDAO = new PackagingDAO(datastore);
 
@@ -101,7 +103,7 @@ class PackagingDAOTest {
         List<ShipmentOption> shipmentOptions = packagingDAO.findShipmentOptions(smallItem, iad2);
 
         // THEN
-        assertEquals(3, shipmentOptions.size(),
+        assertEquals(4, shipmentOptions.size(),
                 "When datastore has duplicate packaging that can fit item, return a single option.");
     }
 
