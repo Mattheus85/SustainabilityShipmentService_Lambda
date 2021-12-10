@@ -6,7 +6,6 @@ import com.amazon.ata.types.ShipmentOption;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class WeightedCostStrategy implements CostStrategy {
     private Map<CostStrategy, BigDecimal> costStrategyMap;
@@ -22,28 +21,50 @@ public class WeightedCostStrategy implements CostStrategy {
     @Override
     public ShipmentCost getCost(ShipmentOption shipmentOption) {
         BigDecimal totalCost = BigDecimal.ZERO;
-        totalCost = totalCost.add(monetaryCostStrategy.getCost(shipmentOption).getCost().multiply(BigDecimal.valueOf(.8)));
-        totalCost = totalCost.add(carbonCostStrategy.getCost(shipmentOption).getCost().multiply(BigDecimal.valueOf(.2)));
+
+        totalCost = totalCost.add(monetaryCostStrategy.getCost(shipmentOption)
+                .getCost().multiply(BigDecimal.valueOf(.8)));
+
+        totalCost = totalCost.add(carbonCostStrategy.getCost(shipmentOption)
+                .getCost().multiply(BigDecimal.valueOf(.2)));
 
         return new ShipmentCost(shipmentOption, totalCost);
     }
 
+    /**
+     * @return - returns a new Builder object
+     */
     public static Builder builder() {
         return new Builder();
     }
 
+    /**
+     * Nested Builder class.
+     */
     public static class Builder {
         private Map<CostStrategy, BigDecimal> costStrategyMap = new HashMap<>();
         private MonetaryCostStrategy monetaryCostStrategy;
         private CarbonCostStrategy carbonCostStrategy;
 
+        /**
+         *
+         * @param costStrategy - The desired cost strategy
+         * @param weight - The desired weight to be given to the cost strategy
+         * @return - The Builder object with updated parameters
+         */
         public Builder addStrategyWithWeight(CostStrategy costStrategy, BigDecimal weight) {
             costStrategyMap.put(costStrategy, weight);
             return this;
         }
 
+        /**
+         *
+         * @return - Returns a new WeightedCostStrategy object
+         */
         public WeightedCostStrategy build() {
-            WeightedCostStrategy weightedCostStrategy = new WeightedCostStrategy(new MonetaryCostStrategy(), new CarbonCostStrategy());
+            WeightedCostStrategy weightedCostStrategy = new WeightedCostStrategy(
+                    new MonetaryCostStrategy(), new CarbonCostStrategy());
+            
             weightedCostStrategy.costStrategyMap = costStrategyMap;
             return weightedCostStrategy;
         }
