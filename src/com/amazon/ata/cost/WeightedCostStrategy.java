@@ -8,26 +8,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WeightedCostStrategy implements CostStrategy {
-    private Map<CostStrategy, BigDecimal> costStrategyMap;
-    private MonetaryCostStrategy monetaryCostStrategy;
-    private CarbonCostStrategy carbonCostStrategy;
+    private Map<BigDecimal, CostStrategy> costStrategyMap;
 
-    private WeightedCostStrategy(MonetaryCostStrategy monetaryCostStrategy,
-                                 CarbonCostStrategy carbonCostStrategy) {
-        this.monetaryCostStrategy = monetaryCostStrategy;
-        this.carbonCostStrategy = carbonCostStrategy;
+    private WeightedCostStrategy(Map<BigDecimal, CostStrategy> costStrategyMap) {
+        this.costStrategyMap = costStrategyMap;
     }
 
     @Override
     public ShipmentCost getCost(ShipmentOption shipmentOption) {
         BigDecimal totalCost = BigDecimal.ZERO;
-
-        totalCost = totalCost.add(monetaryCostStrategy.getCost(shipmentOption)
-                .getCost().multiply(BigDecimal.valueOf(.8)));
-
-        totalCost = totalCost.add(carbonCostStrategy.getCost(shipmentOption)
-                .getCost().multiply(BigDecimal.valueOf(.2)));
-
+        for (Map.Entry<BigDecimal, CostStrategy> anEntry : costStrategyMap.entrySet()) {
+            totalCost = totalCost.add(anEntry.getValue().getCost(shipmentOption).getCost().multiply(anEntry.getKey()));
+        }
         return new ShipmentCost(shipmentOption, totalCost);
     }
 
@@ -42,31 +34,23 @@ public class WeightedCostStrategy implements CostStrategy {
      * Nested Builder class.
      */
     public static class Builder {
-        private Map<CostStrategy, BigDecimal> costStrategyMap = new HashMap<>();
-        private MonetaryCostStrategy monetaryCostStrategy;
-        private CarbonCostStrategy carbonCostStrategy;
+        private Map<BigDecimal, CostStrategy> costStrategyMap = new HashMap<>();
 
         /**
-         *
          * @param costStrategy - The desired cost strategy
          * @param weight - The desired weight to be given to the cost strategy
          * @return - The Builder object with updated parameters
          */
         public Builder addStrategyWithWeight(CostStrategy costStrategy, BigDecimal weight) {
-            costStrategyMap.put(costStrategy, weight);
+            costStrategyMap.put(weight, costStrategy);
             return this;
         }
 
         /**
-         *
          * @return - Returns a new WeightedCostStrategy object
          */
         public WeightedCostStrategy build() {
-            WeightedCostStrategy weightedCostStrategy = new WeightedCostStrategy(
-                    new MonetaryCostStrategy(), new CarbonCostStrategy());
-            
-            weightedCostStrategy.costStrategyMap = costStrategyMap;
-            return weightedCostStrategy;
+            return new WeightedCostStrategy(costStrategyMap);
         }
     }
 }
