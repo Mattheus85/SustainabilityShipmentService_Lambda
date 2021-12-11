@@ -3,6 +3,7 @@ package com.amazon.ata.service;
 import com.amazon.ata.cost.MonetaryCostStrategy;
 import com.amazon.ata.dao.PackagingDAO;
 import com.amazon.ata.datastore.PackagingDatastore;
+import com.amazon.ata.exceptions.NoPackagingFitsItemException;
 import com.amazon.ata.types.FulfillmentCenter;
 import com.amazon.ata.types.Item;
 import com.amazon.ata.types.ShipmentOption;
@@ -26,6 +27,7 @@ class ShipmentServiceTest {
             .withHeight(BigDecimal.valueOf(1000))
             .withWidth(BigDecimal.valueOf(1000))
             .withLength(BigDecimal.valueOf(1000))
+            .withVolume(BigDecimal.valueOf(1000000000))
             .withAsin("12345")
             .build();
 
@@ -50,24 +52,24 @@ class ShipmentServiceTest {
         ShipmentOption shipmentOption = shipmentService.findShipmentOption(largeItem, existentFC);
 
         // THEN
-        assertNull(shipmentOption);
+        assertEquals(shipmentOption.getClass(), ShipmentOption.class,
+                "A ShipmentOption object should be returned");
+        assertNull(shipmentOption.getItem(), "The item field should be null");
     }
 
     @Test
     void findBestShipmentOption_nonExistentFCAndItemCanFit_returnsShipmentOption() {
-        // GIVEN & WHEN
-        ShipmentOption shipmentOption = shipmentService.findShipmentOption(smallItem, nonExistentFC);
-
-        // THEN
-        assertNull(shipmentOption);
+        // GIVEN & WHEN & THEN
+        assertThrows(RuntimeException.class, () -> {
+            shipmentService.findShipmentOption(smallItem, nonExistentFC);
+        }, "When no FC exists, a RuntimeException should be thrown.");
     }
 
     @Test
     void findBestShipmentOption_nonExistentFCAndItemCannotFit_returnsShipmentOption() {
-        // GIVEN & WHEN
-        ShipmentOption shipmentOption = shipmentService.findShipmentOption(largeItem, nonExistentFC);
-
-        // THEN
-        assertNull(shipmentOption);
+        // GIVEN & WHEN & THEN
+        assertThrows(RuntimeException.class, () -> {
+            shipmentService.findShipmentOption(smallItem, nonExistentFC);
+        }, "When no FC exists, a RuntimeException should be thrown.");
     }
 }

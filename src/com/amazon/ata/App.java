@@ -19,6 +19,7 @@ public class App {
     }
 
     private static CostStrategy getCostStrategy() {
+//        return WeightedCostStrategy.builder().build();
         return new WeightedCostStrategy.Builder().build();
     }
 
