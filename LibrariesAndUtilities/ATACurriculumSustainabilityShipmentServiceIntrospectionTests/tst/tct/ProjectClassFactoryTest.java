@@ -30,7 +30,7 @@ class ProjectClassFactoryTest {
     }
 
     @Test
-    void getClass_classDoesntExist_assertFires() {
+    void getClass_classDoesNotExist_assertFires() {
         // WHEN + THEN
         assertThrows(NoClassFoundException.class,
             () -> ProjectClassFactory.getClass("tct.types", "ProjectClassFactory"));

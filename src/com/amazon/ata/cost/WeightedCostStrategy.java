@@ -26,7 +26,7 @@ import java.util.Map;
  * costStrategyMap - A map which links specific calculation weights to their cost strategies
  */
 public class WeightedCostStrategy implements CostStrategy {
-    private Map<CostStrategy, BigDecimal> costStrategyMap;
+    private final Map<CostStrategy, BigDecimal> costStrategyMap;
 
     /**
      * WeightedCostStrategy constructor is private because it's the Builder's job to
@@ -65,7 +65,7 @@ public class WeightedCostStrategy implements CostStrategy {
      * The costStrategyMap is empty until populated with an addStrategyWithWeight() call
      */
     public static class Builder {
-        private Map<CostStrategy, BigDecimal> costStrategyMap = new HashMap<>();
+        private final Map<CostStrategy, BigDecimal> costStrategyMap = new HashMap<>();
 
         /**
          * @param costStrategy - The desired cost strategy

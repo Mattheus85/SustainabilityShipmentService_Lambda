@@ -1,6 +1,5 @@
 package com.amazon.ata.test.junit;
 
-import com.amazon.ata.test.junit.ATATestExecutionListener;
 import com.amazon.ata.test.types.ATATestResult;
 import com.amazon.ata.test.types.ATATestSuiteReport;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ATATestExecutionListenerTest {
     private static final TestIdentifier TEST_IDENTIFIER = TestIdentifier.from(
@@ -41,7 +40,7 @@ public class ATATestExecutionListenerTest {
 
     @BeforeEach
     public void setup() {
-        initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
