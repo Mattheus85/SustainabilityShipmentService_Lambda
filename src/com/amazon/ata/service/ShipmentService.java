@@ -49,11 +49,14 @@ public class ShipmentService {
         try {
             List<ShipmentOption> results = this.packagingDAO.findShipmentOptions(item, fulfillmentCenter);
             return getLowestCostShipmentOption(results);
-        } catch (NoPackagingFitsItemException e) {
-            return ShipmentOption.builder().withFulfillmentCenter(fulfillmentCenter).build();
         } catch (UnknownFulfillmentCenterException e) {
             throw new RuntimeException(e);
-//            throw new RuntimeException(String.format("Unknown FC: %s!", fulfillmentCenter.getFcCode()));
+        } catch (NoPackagingFitsItemException e) {
+            return ShipmentOption.builder()
+                    .withItem(item)
+                    .withPackaging(null)
+                    .withFulfillmentCenter(fulfillmentCenter)
+                    .build();
         }
     }
 

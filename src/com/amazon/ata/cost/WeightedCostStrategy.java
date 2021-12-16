@@ -27,11 +27,10 @@ import java.util.Map;
  */
 public class WeightedCostStrategy implements CostStrategy {
     private Map<CostStrategy, BigDecimal> costStrategyMap;
-    private int number;
 
     /**
      * WeightedCostStrategy constructor is private because it's the Builder's job to
-     * instantiate the WeightedCostStrategy object
+     * instantiate the WeightedCostStrategy object.
      *
      * @param costStrategyMap - Map of cost strategies and their respective weights
      */
@@ -48,7 +47,8 @@ public class WeightedCostStrategy implements CostStrategy {
     public ShipmentCost getCost(ShipmentOption shipmentOption) {
         BigDecimal totalCost = BigDecimal.ZERO;
         for (Map.Entry<CostStrategy, BigDecimal> anEntry : costStrategyMap.entrySet()) {
-            totalCost = totalCost.add(anEntry.getKey().getCost(shipmentOption).getCost().multiply(anEntry.getValue()));
+            totalCost = totalCost.add(anEntry.getKey().getCost(shipmentOption)
+                    .getCost().multiply(anEntry.getValue()));
         }
         return new ShipmentCost(shipmentOption, totalCost);
     }
