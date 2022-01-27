@@ -10,6 +10,8 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.inject.Inject;
+
 /**
  * PARTICIPANTS: You are not expected to modify or use this class directly. Please do not modify the code contained
  * in this class as doing so might break the Shipment Service functionality.
@@ -28,6 +30,7 @@ public class PrepareShipmentActivity
      * Instantiates a new PrepareShipmentActivity object.
      * @param shipmentService Shipment service used to retrieve shipment options.
      */
+    @Inject
     public PrepareShipmentActivity(ShipmentService shipmentService) {
         this.shipmentService = shipmentService;
     }
@@ -38,7 +41,6 @@ public class PrepareShipmentActivity
      *
      * @param request contains information on fulfillment center and item
      * @return String that contains item and packaging information in JSON format
-     * @throws Exception if the request can't be fulfilled
      */
     @Override
         public String handleRequest(PrepareShipmentRequest request, Context context) {

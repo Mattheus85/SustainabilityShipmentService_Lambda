@@ -8,6 +8,7 @@ import com.amazon.ata.types.Material;
 import com.amazon.ata.types.Packaging;
 import com.amazon.ata.types.PolyBag;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.List;
  * Stores all configured packaging pairs for all fulfillment centers.
  */
 public class PackagingDatastore {
+
+    @Inject
+    public PackagingDatastore() {}
 
     /**
      * The stored pairs of fulfillment centers to the packaging options they support.

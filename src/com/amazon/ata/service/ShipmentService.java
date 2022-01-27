@@ -9,6 +9,7 @@ import com.amazon.ata.types.Item;
 import com.amazon.ata.types.ShipmentCost;
 import com.amazon.ata.types.ShipmentOption;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +35,7 @@ public class ShipmentService {
      * @param packagingDAO packaging data access object used to retrieve all available shipment options
      * @param costStrategy cost strategy used to calculate the relative cost of a shipment option
      */
+    @Inject
     public ShipmentService(PackagingDAO packagingDAO, CostStrategy costStrategy) {
         this.packagingDAO = packagingDAO;
         this.costStrategy = costStrategy;

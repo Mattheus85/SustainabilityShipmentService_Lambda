@@ -8,6 +8,7 @@ import com.amazon.ata.types.FulfillmentCenter;
 import com.amazon.ata.types.Item;
 import com.amazon.ata.types.ShipmentOption;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ public class PackagingDAO {
      * Instantiates a PackagingDAO object.
      * @param datastore Where to pull the data from for fulfillment center/packaging available mappings.
      */
+    @Inject
     public PackagingDAO(PackagingDatastore datastore) {
 
         for (FcPackagingOption fcPackagingOption : datastore.getFcPackagingOptions()) {

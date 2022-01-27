@@ -8,6 +8,7 @@ plugins {
     id 'com.github.spotbugs' version '4.7.1'
     id 'com.adarshr.test-logger' version '3.0.0'
     id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'net.ltgt.apt-idea' version "0.15"
 }
 
 repositories {
@@ -97,6 +98,11 @@ dependencies {
     // Added for using log4j usage
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+
+    // Added for using the Dagger framework
+    implementation group: 'com.google.dagger', name: 'dagger', version: '2.40.5'
+    implementation 'com.google.dagger:dagger:2.40.5'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.40.5'
 
 }
 

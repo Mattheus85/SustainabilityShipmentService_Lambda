@@ -49,8 +49,19 @@ class Packaging {
   +canFitItem(Item): boolean
 }
 
+class Box {
+-length : BigDecimal
+-width : BigDecimal
+-height : BigDecimal
+}
+
+class PolyBag {
+-volume : BigDecimal
+}
+
 enum Material {
   + CORRUGATE
+  + LAMINATED PLASTIC
 }
 
 class FcPackagingOption {
@@ -58,13 +69,19 @@ class FcPackagingOption {
   -packaging: Packaging
 }
 
-interface CostStrategy<<interface>> {
-  +getCost(ShipmentOption): ShipmentCost
+interface CostStrategy {
+getCost(ShipmentOption) : ShipmentCost
 }
 
-class MonetaryCostStrategy {
-}
+class MonetaryCostStrategy
+class CarbonCostStrategy
+class WeightedCostStrategy
 
+CostStrategy <|.. MonetaryCostStrategy
+CostStrategy <|.. CarbonCostStrategy
+CostStrategy <|.. WeightedCostStrategy
+WeightedCostStrategy o-- CarbonCostStrategy
+WeightedCostStrategy o-- MonetaryCostStrategy
 ShipmentService o-- PackagingDAO
 ShipmentService o- CostStrategy
 PackagingDAO o-- FcPackagingOption
@@ -72,10 +89,11 @@ PackagingDAO <-- PackagingDatastore
 FcPackagingOption o-- FulfillmentCenter
 FcPackagingOption o-- Packaging
 Packaging *- Material
+Packaging <|-- Box
+Packaging <|-- PolyBag
 ShipmentOption o-- Item
 ShipmentOption o-- Packaging
 ShipmentOption o-- FulfillmentCenter
 CostStrategy o- ShipmentCost
 
-CostStrategy <|.. MonetaryCostStrategy
 @enduml
