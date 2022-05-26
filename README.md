@@ -71,7 +71,7 @@ They are also flexible, allowing a range of item shapes and sizes to be packed e
 replacing the tape holding them shut, they do not protect their contents very well. (This project will involve adding
 polybags as a packaging option to the existing shipment service.)
 
-### Your task, should you choose to accept it...
+### Project Task
 
 As it stands, the software architecture of our service allows for a single packaging **type** with several
 **dimensions**. As a member of the Sustainability team, you will extend the packaging recommendation system to make
